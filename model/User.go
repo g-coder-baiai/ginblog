@@ -1,17 +1,16 @@
 package model
 
 import (
-	"encoding/base64"
 	"ginblog/utils/errmsg"
-	"golang.org/x/crypto/scrypt"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"log"
 )
 
 type User struct {
 	gorm.Model
-	Username string		`gorm:"type:varchar(20)" json:"username"`
-	Password string		`gorm:"type:varchar(20)" json:"password"`
+	Username string		`gorm:"type:varchar(50)" json:"username"`
+	Password string		`gorm:"type:varchar(200)" json:"password"`
 	Role int            `gorm:"type:int" json:"role"`     //1为管理者，2为用户
 }
 
@@ -126,16 +125,56 @@ func (u *User) BeforeUpdate(_ *gorm.DB) (err error) {
 
 
 //密码加密
-func ScryptPw(password string)string{
-	const KeyLen=10
-	salt := make([]byte, 8)
-	salt=[]byte{13,24,56,34,44,55,11,31}
+// ScryptPw 生成密码
+func ScryptPw(password string) string {
+	const cost = 10
 
-	HashPw,err:=scrypt.Key([]byte(password),salt,2048,8,1,KeyLen)
-	if err!=nil{
+	HashPw, err := bcrypt.GenerateFromPassword([]byte(password), cost)
+	if err != nil {
 		log.Fatal(err)
 	}
-	fpw:=base64.StdEncoding.EncodeToString(HashPw)
-	return fpw
 
+	return string(HashPw)
+}
+
+
+// CheckLogin 后台登录验证
+func CheckLogin(username string, password string) (User, int) {
+	var user User
+	var PasswordErr error
+
+	db.Where("username = ?", username).First(&user)
+	// log.Println(password,user.Password)
+
+	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+
+	if user.ID == 0 {
+		return user, errmsg.ERROR_USER_NOT_EXIST
+	}
+	if PasswordErr != nil {
+		log.Println(PasswordErr)
+		return user, errmsg.ERROR_PASSWORD_WRONG
+	}
+	if user.Role != 1 {
+		return user, errmsg.ERROR_USER_NO_RIGHT
+	}
+	return user, errmsg.SUCCSE
+}
+
+
+// CheckLoginFront 前台登录
+func CheckLoginFront(username string, password string) (User, int) {
+	var user User
+	var PasswordErr error
+
+	db.Where("username = ?", username).First(&user)
+
+	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if user.ID == 0 {
+		return user, errmsg.ERROR_USER_NOT_EXIST
+	}
+	if PasswordErr != nil {
+		return user, errmsg.ERROR_PASSWORD_WRONG
+	}
+	return user, errmsg.SUCCSE
 }

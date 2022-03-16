@@ -76,6 +76,7 @@ func EditCate(c *gin.Context) {
 	var data model.Category
 	id, _ := strconv.Atoi(c.Param("id"))
 	_ = c.ShouldBindJSON(&data)
+
 	code := model.CheckCategory(data.Name)
 	if code == errmsg.SUCCSE {
 		model.EditCate(id, &data)
@@ -92,7 +93,7 @@ func EditCate(c *gin.Context) {
 	)
 }
 
-// DeleteCate 删除用户
+// DeleteCate 删除
 func DeleteCate(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
