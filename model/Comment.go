@@ -68,7 +68,6 @@ func GetCommentListFront(id int, pageSize int, pageNum int) ([]Comment, int64, i
 	return commentList, total, errmsg.SUCCSE
 }
 
-// 编辑评论（暂不允许编辑评论）
 
 // DeleteComment 删除评论
 func DeleteComment(id uint) int {
