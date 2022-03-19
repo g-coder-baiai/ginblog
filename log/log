@@ -1,0 +1,7 @@
+time="2022-03-17T18:46:49+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=145 HostName=DESKTOP-B0OJSHG Ip=127.0.0.1 Method=GET Path="/api/v1/category?pagesize=&pagenum=" SpendTime="49 ms" status=200
+8:03+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=51 HostName=DESKTOP-B0OJSHG Ip=127.0.0.1 Method=POST Path=/api/v1/user/add SpendTime="1 ms" status=200
+time="2022-03-17T18:38:16+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=51 HostName=DESKTOP-B0OJSHG Ip=127.0.0.1 Method=POST Path=/api/v1/user/add SpendTime="1 ms" status=200
+time="2022-03-17T18:38:21+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=51 HostName=DESKTOP-B0OJSHG Ip=127.0.0.1 Method=POST Path=/api/v1/user/add SpendTime="0 ms" status=200
+time="2022-03-17T18:38:31+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=67 HostName=DESKTOP-B0OJSHG Ip=127.0.0.1 Method=POST Path=/api/v1/user/add SpendTime="0 ms" status=200
+time="2022-03-17T18:38:37+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=29 HostName=DESKTOP-B0OJSHG Ip=127.0.0.1 Method=POST Path=/api/v1/user/add SpendTime="72 ms" status=200
+time="2022-03-17T18:39:13+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=58 HostName=DESKTOP-B0OJSHG Ip=127.0.0.1 Method=POST Path=/api/v1/user/add SpendTime="0 ms" status=200

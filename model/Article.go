@@ -36,8 +36,6 @@ func GetCateArt(id int, pageSize int, pageNum int) ([]Article, int, int64) {
 
 	err = db.Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("cid = ?", id).Find(&cateArtList).Error
 
-
-
 	db.Model(&cateArtList).Where("cid = ?", id).Count(&total)
 	if err != nil {
 		return nil, errmsg.ERROR_CATE_NOT_EXIST, 0

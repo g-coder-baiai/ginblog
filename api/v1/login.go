@@ -58,6 +58,7 @@ func setToken(c *gin.Context, user model.User) {
 			NotBefore: time.Now().Unix() - 100,
 			ExpiresAt: time.Now().Unix() + 604800,
 			Issuer:    "GinBlog",
+			Subject: "user token",
 		},
 	}
 

@@ -4,24 +4,49 @@ import (
 	"ginblog/api/v1"
 	"ginblog/middleware"
 	"ginblog/utils"
+	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 )
 
-func InitRouter(){
+func createMyRender() multitemplate.Renderer {
+	p := multitemplate.NewRenderer()
+	p.AddFromFiles("admin", "web/admin/dist/index.html")
+	p.AddFromFiles("front", "web/front/dist/index.html")
+	return p
+}
+
+func InitRouter() {
 	gin.SetMode(utils.AppMode)
-	r:=gin.Default()
+	r := gin.New()
+	r.HTMLRender = createMyRender()
+	r.Use(middleware.Log())
+	r.Use(gin.Recovery())
+	r.Use(middleware.Cors())
 
-	// 后台管理路由接口
+	r.Static("/static", "./web/front/dist/static")
+	r.Static("/admin", "./web/admin/dist")
+	r.StaticFile("/favicon.ico", "/web/front/dist/favicon.ico")
 
-		auth := r.Group("api/v1")
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(200, "front", nil)
+	})
+
+	r.GET("/admin", func(c *gin.Context) {
+		c.HTML(200, "admin", nil)
+	})
+
+	/*
+		后台管理路由接口
+	*/
+	auth := r.Group("api/v1")
 	auth.Use(middleware.JwtToken())
 	{
 		// 用户模块的路由接口
 		auth.GET("admin/users", v1.GetUsers)
 		auth.PUT("user/:id", v1.EditUser)
 		auth.DELETE("user/:id", v1.DeleteUser)
-		// todo 修改密码
-		// auth.PUT("admin/changepw/:id", v1.ChangeUserPassword)
+		//修改密码
+		auth.PUT("admin/changepw/:id", v1.ChangeUserPassword)
 		// 分类模块的路由接口
 		auth.GET("admin/category", v1.GetCate)
 		auth.POST("category/add", v1.AddCategory)
@@ -33,16 +58,16 @@ func InitRouter(){
 		auth.POST("article/add", v1.AddArticle)
 		auth.PUT("article/:id", v1.EditArt)
 		auth.DELETE("article/:id", v1.DeleteArt)
-		// todo 上传文件
-		//auth.POST("upload", v1.UpLoad)
-		// todo 更新个人设置
-		//auth.GET("admin/profile/:id", v1.GetProfile)
-		//auth.PUT("profile/:id", v1.UpdateProfile)
-		// todo 评论模块
-		//auth.GET("comment/list", v1.GetCommentList)
-		//auth.DELETE("delcomment/:id", v1.DeleteComment)
-		//auth.PUT("checkcomment/:id", v1.CheckComment)
-		//auth.PUT("uncheckcomment/:id", v1.UncheckComment)
+		// 上传文件
+		auth.POST("upload", v1.UpLoad)
+		// 更新个人设置
+		auth.GET("admin/profile/:id", v1.GetProfile)
+		auth.PUT("profile/:id", v1.UpdateProfile)
+		// 评论模块
+		auth.GET("comment/list", v1.GetCommentList)
+		auth.DELETE("delcomment/:id", v1.DeleteComment)
+		auth.PUT("checkcomment/:id", v1.CheckComment)
+		auth.PUT("uncheckcomment/:id", v1.UncheckComment)
 	}
 
 	/*
@@ -68,18 +93,16 @@ func InitRouter(){
 		router.POST("login", v1.Login)
 		router.POST("loginfront", v1.LoginFront)
 
-		// todo 获取个人设置信息
-		//router.GET("profile/:id", v1.GetProfile)
+		// 获取个人设置信息
+		router.GET("profile/:id", v1.GetProfile)
 
-		// todo 评论模块
-		//router.POST("addcomment", v1.AddComment)
-		//router.GET("comment/info/:id", v1.GetComment)
-		//router.GET("commentfront/:id", v1.GetCommentListFront)
-		//router.GET("commentcount/:id", v1.GetCommentCount)
+		// 评论模块
+		router.POST("addcomment", v1.AddComment)
+		router.GET("comment/info/:id", v1.GetComment)
+		router.GET("commentfront/:id", v1.GetCommentListFront)
+		router.GET("commentcount/:id", v1.GetCommentCount)
 	}
 
-
-	r.Run(utils.HttpPort)
-
+	_ = r.Run(utils.HttpPort)
 
 }

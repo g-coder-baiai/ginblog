@@ -31,6 +31,7 @@ func init(){
 
 	LoadServer(file)
 	LoadDatabase(file)
+	LoadQiniu(file)
 }
 
 func LoadServer(file *ini.File){

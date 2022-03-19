@@ -34,7 +34,7 @@ var (
 )
 
 
-// CreateToken 生成token
+// CreateToken 生成token  用于login/SetToken
 func (j *JWT) CreateToken(claims MyClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(j.JwtKey)

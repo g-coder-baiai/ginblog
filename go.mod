@@ -3,28 +3,33 @@ module ginblog
 go 1.17
 
 require (
+	github.com/gin-contrib/cors v1.3.1
+	github.com/gin-contrib/multitemplate v0.0.0-20220318012832-e2ee59f3525c
 	github.com/gin-gonic/gin v1.7.7
+	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
+	github.com/qiniu/go-sdk/v7 v7.11.1
+	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
+	github.com/sirupsen/logrus v1.8.1
 	gopkg.in/ini.v1 v1.66.4
 	gorm.io/driver/mysql v1.3.2
 	gorm.io/gorm v1.23.2
-	github.com/qiniu/go-sdk/v7 v7.11.1
 )
 
 require (
-	github.com/kr/pretty v0.3.0 // indirect
-	github.com/rogpeppe/go-internal v1.8.0 // indirect
+	github.com/jonboulle/clockwork v0.2.2 // indirect
+	github.com/lestrrat-go/strftime v1.0.5 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	golang.org/x/sync v0.0.0-20201207232520-09787c993a3a // indirect
 	golang.org/x/sys v0.0.0-20211020174200-9d6173849985 // indirect
 	golang.org/x/text v0.3.7 // indirect
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/go-playground/locales v0.14.0 // indirect
-	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator/v10 v10.8.0 // indirect
+	github.com/go-playground/locales v0.14.0
+	github.com/go-playground/universal-translator v0.18.0
+	github.com/go-playground/validator/v10 v10.8.0
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang/protobuf v1.3.3 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect

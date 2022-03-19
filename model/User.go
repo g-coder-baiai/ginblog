@@ -9,9 +9,9 @@ import (
 
 type User struct {
 	gorm.Model
-	Username string		`gorm:"type:varchar(50)" json:"username"`
-	Password string		`gorm:"type:varchar(200)" json:"password"`
-	Role int            `gorm:"type:int" json:"role"`     //1为管理者，2为用户
+	Username string		`gorm:"type:varchar(50)" json:"username" validate:"required,min=4,max=12" label:"用户名"`
+	Password string		`gorm:"type:varchar(200)" json:"password" validate:"required,min=6,max=20" label:"密码"`
+	Role int            `gorm:"type:int;DEFAULT:2" json:"role" validate:"required,gte=2" label:"角色码"`     //1为管理者，2为用户
 }
 
 //查询用户是否存在
@@ -135,6 +135,19 @@ func ScryptPw(password string) string {
 	}
 
 	return string(HashPw)
+}
+
+// ChangePassword 修改密码
+func ChangePassword(id int, data *User) int {
+	//var user User
+	//var maps = make(map[string]interface{})
+	//maps["password"] = data.Password
+
+	err = db.Select("password").Where("id = ?", id).Updates(&data).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
 }
 
 

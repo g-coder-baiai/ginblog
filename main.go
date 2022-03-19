@@ -8,7 +8,6 @@ import (
 func main(){
 	model.InitDb()
 
-
 	routers.InitRouter()
 
 }
